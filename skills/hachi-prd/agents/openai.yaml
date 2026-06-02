@@ -1,0 +1,4 @@
+interface:
+  display_name: "hachi-prd"
+  short_description: "Turn concepts into traceable, implementation-ready PRDs."
+  default_prompt: "Create a hachi-prd PRD with user analysis, operation-image use cases, traceable requirements, acceptance criteria, and ADR candidates."

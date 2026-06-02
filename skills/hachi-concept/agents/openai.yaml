@@ -1,0 +1,4 @@
+interface:
+  display_name: "hachi-concept"
+  short_description: "Refine SEEDs and positioning briefs into PRD-ready concept briefs."
+  default_prompt: "Create or refine a Concept Brief with signature workflow, example input/output, activation moment, moat, non-goals, and PRD readiness."

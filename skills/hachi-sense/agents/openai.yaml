@@ -1,0 +1,4 @@
+interface:
+  display_name: "hachi-sense"
+  short_description: "Collect noisy pain signals into scored, evidence-backed SEEDs."
+  default_prompt: "Collect SEEDs for this focus area, separate facts from inference, score confidence, and include hachi-position handoff notes."

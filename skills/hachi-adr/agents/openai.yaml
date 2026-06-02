@@ -1,0 +1,4 @@
+interface:
+  display_name: "hachi-adr"
+  short_description: "Write rigorous one-decision ADRs with assumptions and verification."
+  default_prompt: "Create a hachi-adr ADR from this PRD candidate, split mixed decisions, infer conservative defaults, and include alternatives, consequences, rollback, and verification."
