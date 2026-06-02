@@ -44,7 +44,7 @@ Then ask your agent:
 
 ```text
 Use hachi-sense to collect SEEDs for "agent memory governance".
-Then evaluate the strongest SEED with hachi-position and refine it with hachi-concept.
+Then let hachi-position select promising, painful, or distinctive SEEDs and refine the primary candidate with hachi-concept.
 ```
 
 If you only want one skill:
@@ -60,7 +60,7 @@ Use project installation when the skills should be shared with a repository. Use
 | Skill | Purpose | Main output |
 |---|---|---|
 | `hachi-sense` | Collect user pain signals, weak market signals, workarounds, repeated questions, and unmet needs. | SEED Report |
-| `hachi-position` | Evaluate whether a SEED has a defensible market position, wedge, moat, and hachiware-labs fit. | Positioning Report |
+| `hachi-position` | Select promising, painful, or distinctive SEEDs, then evaluate whether a candidate has defensible market position, wedge, moat, and hachiware-labs fit. | Positioning Report |
 | `hachi-concept` | Extract, refine, or synthesize a product concept from SEEDs, positioning reports, repositories, or notes. | Concept Brief |
 | `hachi-prd` | Turn a Concept Brief into a detailed, implementation-ready PRD. | PRD |
 | `hachi-adr` | Create rigorous one-decision ADRs from PRD ADR candidates or design decisions. | ADR |
@@ -72,7 +72,7 @@ Each skill produces a durable artifact that can be reviewed, edited, saved under
 | Skill | Deliverables you can ask for | Useful when you need... | Recommended location |
 |---|---|---|---|
 | `hachi-sense` | SEED Report, signal map, evidence notes, confidence scores, handoff notes | a structured view of unresolved user pain before choosing a product idea | `factory/seeds/` |
-| `hachi-position` | Positioning Report, vendor / OSS risk analysis, moat and wedge scores, promote / watch / merge / discard decision | a decision on whether a SEED is worth productizing | `factory/positioning/` |
+| `hachi-position` | Candidate selection, Positioning Report, vendor / OSS risk analysis, moat and wedge scores, promote / watch / merge / discard decision | a decision on which SEED should be evaluated and whether it is worth productizing | `factory/positioning/` |
 | `hachi-concept` | Concept Brief, refinement log, signature workflow, example input / output, PRD readiness check | a concept that is concrete enough to become requirements | `factory/concepts/` |
 | `hachi-prd` | MVP / standard / full PRD, user analysis, pain points, operation-image use cases, requirements, acceptance criteria, ADR candidates | a buildable specification that engineers and agents can implement from | `factory/prds/` |
 | `hachi-adr` | ADR, assumption ledger, alternatives, consequences, rollback path, verification notes, follow-up tasks | a durable record of one architectural decision | `factory/adrs/` |
@@ -224,7 +224,7 @@ npx skills add hachiware-labs/hachi-concept-factory --skill hachi-adr --agent co
 | If you have... | Install / use |
 |---|---|
 | a topic, trend, rough problem area, or market curiosity | `hachi-sense` |
-| a SEED or rough product idea to evaluate | `hachi-position` |
+| a SEED, SEED report, or rough product idea to evaluate or rank | `hachi-position` |
 | a SEED, positioning report, repository, README, or rough concept | `hachi-concept` |
 | a Concept Brief that should become buildable requirements | `hachi-prd` |
 | a PRD, ADR candidate, or architecture decision | `hachi-adr` |
@@ -245,7 +245,7 @@ The configured display names also work as shorthand triggers. You can start with
 | Shorthand | Good for | Example requests |
 |---|---|---|
 | `hachi-sense` | finding and scoring pain signals | `hachi-sense: collect SEEDs for "agent memory governance".`<br>`hachi-sense: turn these notes into SEED candidates and save them under factory/seeds/.` |
-| `hachi-position` | deciding whether a SEED should advance | `hachi-position: evaluate this SEED and decide promote / watch / merge / discard.`<br>`hachi-position: check vendor risk, OSS risk, moat, wedge, and hachiware-labs fit.` |
+| `hachi-position` | selecting candidates and deciding whether a SEED should advance | `hachi-position: select the top 3 SEEDs from this report, then fully evaluate the primary candidate.`<br>`hachi-position: choose SEEDs with sharp pain, distinctive problem framing, or clear solution gaps, then check vendor risk, OSS risk, moat, and hachiware-labs fit.` |
 | `hachi-concept` | refining or extracting a concept | `hachi-concept: refine this positioning report into a PRD-ready Concept Brief.`<br>`hachi-concept extract: read this repository and identify the latent product concept.` |
 | `hachi-prd` | writing implementation-ready requirements | `hachi-prd: create a standard-density PRD from this Concept Brief.`<br>`hachi-prd mvp: include users, pain points, operation-image use cases, acceptance criteria, and ADR candidates.` |
 | `hachi-adr` | recording architecture decisions | `hachi-adr: write one rigorous ADR from this ADR candidate.`<br>`hachi-adr: split mixed decisions, choose the first ADR, and include rollback and verification notes.` |
@@ -254,7 +254,7 @@ For longer workflows, combine the shorthand names in one request:
 
 ```text
 hachi-sense -> hachi-position -> hachi-concept.
-Find SEEDs for "agent memory governance", evaluate the strongest one, then refine it into a Concept Brief.
+Find SEEDs for "agent memory governance", let hachi-position choose the top, painful, and distinctive candidates, then refine the primary one into a Concept Brief.
 Use Japanese output and save artifacts under factory/.
 ```
 
@@ -319,7 +319,7 @@ Imagine you notice that small product teams keep losing context when AI agents h
 
 Start with `hachi-sense`. Ask it to collect SEEDs for the area, separate observed facts from inference, cluster repeated complaints, score confidence, and save a SEED Report under `factory/seeds/`. The output should not be a product spec yet. It should tell you which pain signals are real enough to investigate, which are weak, and what evidence is missing.
 
-Next, pass the strongest SEED to `hachi-position`. Ask it to evaluate vendor absorption risk, OSS alternatives, manual workarounds, differentiation, moat, wedge, and buildability. This stage answers whether the idea should advance, wait, merge with another idea, or be discarded. Save the Positioning Report under `factory/positioning/`.
+Next, pass the whole SEED report to `hachi-position`. Ask it to select candidates by user pain intensity, pain ownership, evidence strength, existing-solution gap, problem distinctiveness, wedge sharpness, hachiware-labs fit, moat potential, risk-adjusted feasibility, and learning value. It can choose top candidates, pain-first candidates, distinctive candidates, solution-gap candidates, safe candidates, or risky-but-interesting candidates before running full positioning on the primary candidate. Save the Positioning Report under `factory/positioning/`.
 
 If the SEED is worth advancing, use `hachi-concept`. Ask for refine mode when you already have a SEED and positioning report, or extract mode when you are reading an existing repository. This skill turns the opportunity into a Concept Brief with a target user, first workflow, example input, example output, activation moment, non-goals, repeated-use value, and PRD readiness. Save it under `factory/concepts/`.
 
@@ -332,7 +332,7 @@ One compact prompt for the whole story:
 ```text
 hachi-sense -> hachi-position -> hachi-concept -> hachi-prd -> hachi-adr.
 Start from the problem area "AI agent handoff failures for small product teams".
-Find SEEDs, evaluate the strongest SEED, refine it into a Concept Brief,
+Find SEEDs, select the top, painful, and distinctive candidates, evaluate the primary SEED, refine it into a Concept Brief,
 write an MVP PRD, then create the first ADR candidate.
 Save durable artifacts under factory/ and explain each promotion decision.
 ```
@@ -341,7 +341,7 @@ Example end-to-end prompt:
 
 ```text
 Use hachi-sense to collect SEEDs for "local-first agent evaluation".
-Then use hachi-position for the strongest SEED, refine it with hachi-concept,
+Then use hachi-position to select and evaluate the strongest or most distinctive SEED, refine it with hachi-concept,
 turn it into an MVP PRD with hachi-prd, and extract ADR candidates with hachi-adr.
 Use Japanese output and save durable artifacts under factory/.
 ```
@@ -397,11 +397,12 @@ Decision values:
 
 ## hachi-position
 
-Use `hachi-position` to decide whether a SEED is worth turning into a product concept.
+Use `hachi-position` to select promising or distinctive SEEDs from a SEED report, or to decide whether one SEED is worth turning into a product concept.
 
 It is useful for:
 
 - checking big vendor absorption risk
+- selecting top, pain-first, distinctive, solution-gap, safe, or risky-but-interesting candidates from a hachi-sense report
 - checking commercial and OSS alternatives
 - identifying manual workarounds
 - clarifying differentiation
@@ -409,6 +410,16 @@ It is useful for:
 - deciding whether to promote to `hachi-concept`
 
 Example prompts:
+
+```text
+Use hachi-position on this hachi-sense report. Select the top 3 candidates,
+identify one distinctive but risky candidate, then fully evaluate the primary SEED.
+```
+
+```text
+Use hachi-position in pain-first mode. Choose the SEED with the sharpest repeated user pain,
+even if the product form is still unclear.
+```
 
 ```text
 Use hachi-position to evaluate this SEED. Check big vendor risk, OSS competition,
@@ -422,6 +433,7 @@ Use hachi-position and tell me whether to promote, watch, merge, or discard.
 
 Expected output sections include:
 
+- candidate selection, when multiple SEEDs are provided
 - product hypothesis
 - market and vendor landscape
 - differentiation analysis
@@ -596,7 +608,7 @@ Decision values:
 
 ```text
 Use hachi-sense to find product SEEDs around "agent memory governance".
-Then pick the strongest SEED and evaluate it with hachi-position.
+Then use hachi-position to select the top and distinctive candidates and evaluate the primary one.
 ```
 
 ### Start from an existing idea

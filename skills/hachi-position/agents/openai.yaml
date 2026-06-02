@@ -1,4 +1,4 @@
 interface:
   display_name: "hachi-position"
-  short_description: "Evaluate SEEDs against market, vendor, OSS, wedge, and moat risks."
-  default_prompt: "Evaluate this SEED, check vendor and OSS risk, score the wedge, and include a hachi-concept handoff or decision trigger."
+  short_description: "Select and evaluate SEEDs against market, vendor, OSS, wedge, and moat risks."
+  default_prompt: "Select promising or distinctive SEEDs from this input, evaluate the primary SEED, check vendor and OSS risk, score the wedge, and include a hachi-concept handoff or decision trigger."

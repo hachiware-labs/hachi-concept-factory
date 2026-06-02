@@ -4,6 +4,13 @@ Use this before deciding whether a SEED advances to hachi-concept.
 
 ## Scenario Gates
 
+- Multi-SEED input: first select candidate SEEDs. Do not force the user to manually identify one SEED when a hachi-sense report is available.
+- Candidate selection: include at least one selected primary candidate, up to two secondary candidates, and a short explanation for rejected or deferred obvious candidates.
+- Candidate attributes: score user pain intensity, pain ownership, evidence strength, existing-solution gap, problem distinctiveness, wedge sharpness, hachiware-labs fit, moat potential, risk-adjusted feasibility, and learning value before choosing.
+- Distinctive candidate request: do not simply choose the highest evidence SEED. Favor unusual pain, non-obvious problem framing, under-served workflows, hachiware-labs fit, and learnability, while clearly labeling evidence gaps.
+- Top candidate request: rank by pain intensity, pain ownership, evidence strength, solution gap, wedge sharpness, risk-adjusted feasibility, moat potential, and hachiware-labs fit.
+- Pain-first request: choose the SEED with the sharpest repeated user pain even if product form is less obvious, then state what concept work is needed.
+- Solution-gap request: choose the SEED where current vendor, OSS, SaaS, or manual alternatives leave the clearest unresolved workflow gap.
 - Strong pain, crowded market: promote only if the wedge avoids direct feature comparison and names a compounding moat.
 - Weak evidence, attractive idea: use `watch` and state what evidence would raise confidence.
 - Big vendor absorption risk: use `watch` or `discard` unless the wedge is local-first, workflow-specific, Japanese-context-specific, transparent, or complementary.
@@ -16,6 +23,7 @@ Use this before deciding whether a SEED advances to hachi-concept.
 A strong hachi-position output should satisfy all of these:
 
 - The product hypothesis is narrower than the original SEED.
+- If multiple SEEDs were provided, candidate selection is explicit and the primary candidate is justified.
 - Landscape coverage matches requested depth or the gap is explicit.
 - Big vendor, commercial, OSS, and manual workaround alternatives are all considered when relevant.
 - Differentiation is stated as a wedge, not a generic quality claim.

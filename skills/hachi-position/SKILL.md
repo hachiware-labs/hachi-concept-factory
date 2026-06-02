@@ -1,24 +1,51 @@
 ---
 name: hachi-position
-description: Evaluate hachi-concept-factory SEEDs as product hypotheses. Use when asked to assess a SEED, product idea, idea material, market position, win condition, vendor risk, OSS competition, differentiation, moat, wedge, or whether an idea should advance to hachi-concept.
+description: Evaluate and select hachi-concept-factory SEEDs as product hypotheses. Use when asked to assess one SEED, choose promising or distinctive SEEDs from a SEED report, evaluate product ideas, market position, win condition, vendor risk, OSS competition, differentiation, moat, wedge, or whether an idea should advance to hachi-concept.
 ---
 
 # hachi-position
 
-Use this skill to decide whether a SEED deserves to become a product concept. The goal is not a full business plan; the goal is a defensible positioning brief that clarifies target user, alternatives, differentiation, moat, wedge, risks, and next action.
+Use this skill to decide whether a SEED deserves to become a product concept. It can evaluate a single SEED, or it can read a multi-SEED hachi-sense report, select the most promising or distinctive candidates, and then evaluate the selected candidates. The goal is not a full business plan; the goal is a defensible positioning brief that clarifies target user, alternatives, differentiation, moat, wedge, risks, and next action.
 
 ## Workflow
 
 1. Normalize the input.
    - Identify the source SEED, focus area, source evidence, output locale, and requested depth.
-   - If the input is not already a SEED, restate it as a product-pain hypothesis before analysis.
+   - If the input is a hachi-sense report or contains multiple SEEDs, treat it as a candidate pool before choosing what to evaluate.
+   - If the input is not already a SEED or SEED report, restate it as a product-pain hypothesis before analysis.
    - Preserve links and evidence from hachi-sense when present.
 
-2. Define the product hypothesis.
+2. Select candidates when multiple SEEDs are present.
+   - Do not require the user to manually choose one SEED from a hachi-sense report.
+   - Build a short candidate table for all plausible SEEDs, using their ID, title, user, pain, evidence, current workaround, existing-solution gap, uniqueness, risk, product hint, and hachiware-labs fit.
+   - Evaluate candidate-selection attributes before choosing:
+     - User pain intensity: repeated, expensive, urgent, emotionally sharp, or tied to visible failure.
+     - Pain ownership: a clear user or buyer owns the pain and can recognize success.
+     - Evidence strength: the SEED has concrete observations, artifacts, repeated reports, or strong firsthand notes.
+     - Existing-solution gap: current tools, OSS, vendor features, or manual workarounds leave an unresolved workflow gap.
+     - Problem distinctiveness: the pain is specific, non-obvious, under-served, or framed differently from crowded categories.
+     - Wedge sharpness: a small first workflow, input, output, and success moment are imaginable.
+     - hachiware-labs fit: local-first, Skill / CLI / Markdown artifact, Japanese context, PRD / ADR / Wiki handoff, or small-team workflow strengths apply.
+     - Moat potential: repeated use can accumulate workflow, context, rules, examples, evaluation data, or decision history.
+     - Risk-adjusted feasibility: a small team can ship a credible first version without being immediately absorbed by vendors or mature OSS.
+     - Learning value: even a `watch` candidate would teach something useful about users, workflows, or the market.
+   - Select candidates by intent:
+     - `top`: highest overall promise for hachiware-labs.
+     - `pain`: strongest user pain, urgency, frequency, or failure consequence.
+     - `distinctive`: most unusual, non-obvious, under-served, or defensible problem framing even if evidence is thinner.
+     - `solution_gap`: clearest gap left by existing vendor, OSS, SaaS, or manual alternatives.
+     - `safe`: strongest evidence and lowest vendor / OSS absorption risk.
+     - `risky_but_interesting`: high upside but weak evidence, high vendor risk, or unclear wedge.
+     - `coverage`: diverse candidates across different users, pains, workflows, and product forms.
+   - If the user does not specify selection intent, select 1 primary candidate and 2 secondary candidates using `top` plus `coverage`.
+   - Explain why selected candidates were chosen and why obvious rejected candidates were not selected.
+   - Then run full positioning on the primary candidate unless the user asks for top-N brief evaluations.
+
+3. Define the product hypothesis.
    - State the target user, pain, current workaround, proposed category, and job-to-be-done.
    - Keep the hypothesis narrow enough to evaluate. Split broad ideas into positioning options.
 
-3. Check the landscape.
+4. Check the landscape.
    - Big vendors: look for platform absorption risk and adjacent official capabilities.
    - Commercial alternatives: identify SaaS/tools users may already buy.
    - OSS alternatives: identify repositories, frameworks, extensions, scripts, and docs.
@@ -26,12 +53,12 @@ Use this skill to decide whether a SEED deserves to become a product concept. Th
    - Use a depth-appropriate research completion check before scoring.
    - If research is incomplete, include the gap and avoid overconfident promotion.
 
-4. Analyze differentiation and moat.
+5. Analyze differentiation and moat.
    - Separate feature differences from compounding advantages.
    - Explain why the moat may compound, how it may fail, how competitors could copy it, and how big vendors could absorb it.
    - Prefer narrow wedges that fit hachiware-labs strengths.
 
-5. Score and decide.
+6. Score and decide.
    - Score pain-to-product fit, differentiation, vendor risk, OSS competition risk, wedge clarity, buildability, and moat.
    - Treat `vendor risk` and `OSS competition risk` as risk scores: higher is worse.
    - Recommend exactly one decision: `promote_to_concept`, `watch`, `merge`, or `discard`.
@@ -65,42 +92,49 @@ Use this structure:
 
 ## 1. Scope
 - Source SEED:
+- Source SEED report:
 - Focus area:
 - Period:
 - Sources:
 - Output locale:
 
-## 2. Product Hypothesis
+## 2. Candidate Selection
+### Selection Intent
+### Candidate Pool
+### Selected Candidates
+### Rejected or Deferred Candidates
+
+## 3. Product Hypothesis
 ### Hypothesis
 ### Target User
 ### Pain
 ### Proposed Product Category
 ### Job-to-be-Done
 
-## 3. Market and Vendor Landscape
+## 4. Market and Vendor Landscape
 ### Big Vendor Direction
 ### Commercial Alternatives
 ### OSS Alternatives
 ### Manual Workarounds
 
-## 4. Differentiation Analysis
+## 5. Differentiation Analysis
 
-## 5. Moat Analysis
+## 6. Moat Analysis
 
-## 6. Positioning Options
+## 7. Positioning Options
 
-## 7. Recommendation
+## 8. Recommendation
 Decision:
 - promote_to_concept
 - watch
 - merge
 - discard
 
-## 8. Scores
+## 9. Scores
 
-## 9. Research Gaps and Decision Triggers
+## 10. Research Gaps and Decision Triggers
 
-## 10. Next Step
+## 11. Next Step
 ```
 
 ## References
