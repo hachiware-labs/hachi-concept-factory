@@ -227,6 +227,24 @@ Use hachi-prd to turn this Concept Brief into a standard-density PRD.
 
 Most agents trigger skills from the installed skill metadata. Naming the skill explicitly is the most reliable way to start.
 
+The configured display names also work as shorthand triggers. You can start with the shorthand, then add the topic, artifact, mode, density, or output locale you want:
+
+| Shorthand | Typical request |
+|---|---|
+| `hachi-sense` | `hachi-sense: collect SEEDs for "agent memory governance".` |
+| `hachi-position` | `hachi-position: evaluate this SEED and decide promote / watch / merge / discard.` |
+| `hachi-concept` | `hachi-concept: refine this positioning report into a PRD-ready Concept Brief.` |
+| `hachi-prd` | `hachi-prd: create a standard-density PRD from this Concept Brief.` |
+| `hachi-adr` | `hachi-adr: write one rigorous ADR from this ADR candidate.` |
+
+For longer workflows, combine the shorthand names in one request:
+
+```text
+hachi-sense -> hachi-position -> hachi-concept.
+Find SEEDs for "agent memory governance", evaluate the strongest one, then refine it into a Concept Brief.
+Use Japanese output and save artifacts under factory/.
+```
+
 ### Update, list, and remove
 
 List installed skills:

@@ -228,6 +228,24 @@ hachi-prd を使って、このConcept Briefを standard density のPRDにして
 
 多くのAgentはインストール済みSkillのmetadataから自動で起動しますが、最初はSkill名を明示するのが確実です。
 
+各Skillに設定されている表示名は、ショートハンドとしても使えます。ショートハンドから始めて、対象テーマ、成果物、mode、density、出力言語を続けて指定できます。
+
+| ショートハンド | 依頼例 |
+|---|---|
+| `hachi-sense` | `hachi-sense: 「agent memory governance」のSEEDを集めてください。` |
+| `hachi-position` | `hachi-position: このSEEDを評価し、promote / watch / merge / discard を判断してください。` |
+| `hachi-concept` | `hachi-concept: このPositioning ReportをPRD-readyなConcept Briefへ磨いてください。` |
+| `hachi-prd` | `hachi-prd: このConcept Briefからstandard densityのPRDを作ってください。` |
+| `hachi-adr` | `hachi-adr: このADR候補から、1判断1ADRの厳密なADRを書いてください。` |
+
+複数Skillをまとめて使う場合も、ショートハンドを並べて依頼できます。
+
+```text
+hachi-sense -> hachi-position -> hachi-concept.
+「agent memory governance」のSEEDを集め、最も強いものを評価し、Concept Briefへ洗練してください。
+出力は日本語、成果物は factory/ 以下に保存する想定でお願いします。
+```
+
 ### 更新・一覧・削除
 
 インストール済みSkillを一覧する:
