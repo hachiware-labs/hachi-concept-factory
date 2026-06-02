@@ -65,6 +65,19 @@ Use project installation when the skills should be shared with a repository. Use
 | `hachi-prd` | Turn a Concept Brief into a detailed, implementation-ready PRD. | PRD |
 | `hachi-adr` | Create rigorous one-decision ADRs from PRD ADR candidates or design decisions. | ADR |
 
+## Deliverables
+
+Each skill produces a durable artifact that can be reviewed, edited, saved under `factory/`, and handed to the next skill.
+
+| Skill | Deliverables you can ask for | Useful when you need... | Recommended location |
+|---|---|---|---|
+| `hachi-sense` | SEED Report, signal map, evidence notes, confidence scores, handoff notes | a structured view of unresolved user pain before choosing a product idea | `factory/seeds/` |
+| `hachi-position` | Positioning Report, vendor / OSS risk analysis, moat and wedge scores, promote / watch / merge / discard decision | a decision on whether a SEED is worth productizing | `factory/positioning/` |
+| `hachi-concept` | Concept Brief, refinement log, signature workflow, example input / output, PRD readiness check | a concept that is concrete enough to become requirements | `factory/concepts/` |
+| `hachi-prd` | MVP / standard / full PRD, user analysis, pain points, operation-image use cases, requirements, acceptance criteria, ADR candidates | a buildable specification that engineers and agents can implement from | `factory/prds/` |
+| `hachi-adr` | ADR, assumption ledger, alternatives, consequences, rollback path, verification notes, follow-up tasks | a durable record of one architectural decision | `factory/adrs/` |
+| full workflow | Discovery packet, product decision trail, Concept Brief, PRD, ADR set, run log | an end-to-end product discovery and specification handoff | `factory/runs/` plus each stage directory |
+
 ## Why this exists
 
 Most product work starts too late, often at the PRD stage. `hachi-concept-factory` starts earlier:
@@ -227,15 +240,15 @@ Use hachi-prd to turn this Concept Brief into a standard-density PRD.
 
 Most agents trigger skills from the installed skill metadata. Naming the skill explicitly is the most reliable way to start.
 
-The configured display names also work as shorthand triggers. You can start with the shorthand, then add the topic, artifact, mode, density, or output locale you want:
+The configured display names also work as shorthand triggers. You can start with the shorthand, then add the topic, artifact, mode, density, output locale, and save location you want:
 
-| Shorthand | Typical request |
-|---|---|
-| `hachi-sense` | `hachi-sense: collect SEEDs for "agent memory governance".` |
-| `hachi-position` | `hachi-position: evaluate this SEED and decide promote / watch / merge / discard.` |
-| `hachi-concept` | `hachi-concept: refine this positioning report into a PRD-ready Concept Brief.` |
-| `hachi-prd` | `hachi-prd: create a standard-density PRD from this Concept Brief.` |
-| `hachi-adr` | `hachi-adr: write one rigorous ADR from this ADR candidate.` |
+| Shorthand | Good for | Example requests |
+|---|---|---|
+| `hachi-sense` | finding and scoring pain signals | `hachi-sense: collect SEEDs for "agent memory governance".`<br>`hachi-sense: turn these notes into SEED candidates and save them under factory/seeds/.` |
+| `hachi-position` | deciding whether a SEED should advance | `hachi-position: evaluate this SEED and decide promote / watch / merge / discard.`<br>`hachi-position: check vendor risk, OSS risk, moat, wedge, and hachiware-labs fit.` |
+| `hachi-concept` | refining or extracting a concept | `hachi-concept: refine this positioning report into a PRD-ready Concept Brief.`<br>`hachi-concept extract: read this repository and identify the latent product concept.` |
+| `hachi-prd` | writing implementation-ready requirements | `hachi-prd: create a standard-density PRD from this Concept Brief.`<br>`hachi-prd mvp: include users, pain points, operation-image use cases, acceptance criteria, and ADR candidates.` |
+| `hachi-adr` | recording architecture decisions | `hachi-adr: write one rigorous ADR from this ADR candidate.`<br>`hachi-adr: split mixed decisions, choose the first ADR, and include rollback and verification notes.` |
 
 For longer workflows, combine the shorthand names in one request:
 
@@ -299,6 +312,30 @@ Recommended artifact locations:
 | PRDs | `factory/prds/` |
 | ADRs | `factory/adrs/` |
 | Run logs / experiments | `factory/runs/` |
+
+### Story: from pain discovery to ADR
+
+Imagine you notice that small product teams keep losing context when AI agents hand work to each other. The pain is still vague: people complain about "agent memory", "bad handoffs", and "hard-to-review runs", but it is not yet a product.
+
+Start with `hachi-sense`. Ask it to collect SEEDs for the area, separate observed facts from inference, cluster repeated complaints, score confidence, and save a SEED Report under `factory/seeds/`. The output should not be a product spec yet. It should tell you which pain signals are real enough to investigate, which are weak, and what evidence is missing.
+
+Next, pass the strongest SEED to `hachi-position`. Ask it to evaluate vendor absorption risk, OSS alternatives, manual workarounds, differentiation, moat, wedge, and buildability. This stage answers whether the idea should advance, wait, merge with another idea, or be discarded. Save the Positioning Report under `factory/positioning/`.
+
+If the SEED is worth advancing, use `hachi-concept`. Ask for refine mode when you already have a SEED and positioning report, or extract mode when you are reading an existing repository. This skill turns the opportunity into a Concept Brief with a target user, first workflow, example input, example output, activation moment, non-goals, repeated-use value, and PRD readiness. Save it under `factory/concepts/`.
+
+Then use `hachi-prd`. Ask for `mvp`, `standard`, or `full` density depending on how much detail you need. The PRD should draw the user analysis, pain points, operation-image use cases, functional requirements, non-functional requirements, acceptance criteria, success metrics, traceability, and ADR candidates. Save it under `factory/prds/`.
+
+Finally, use `hachi-adr` for each important architecture decision from the PRD. Ask it to keep one decision per ADR, infer conservative defaults when information is missing, compare alternatives, record consequences, define rollback conditions, and include verification notes. Save ADRs under `factory/adrs/`. At this point, the original vague pain has become a reviewable chain of artifacts from evidence to product decision to implementation plan to architecture record.
+
+One compact prompt for the whole story:
+
+```text
+hachi-sense -> hachi-position -> hachi-concept -> hachi-prd -> hachi-adr.
+Start from the problem area "AI agent handoff failures for small product teams".
+Find SEEDs, evaluate the strongest SEED, refine it into a Concept Brief,
+write an MVP PRD, then create the first ADR candidate.
+Save durable artifacts under factory/ and explain each promotion decision.
+```
 
 Example end-to-end prompt:
 

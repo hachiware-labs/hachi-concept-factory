@@ -65,6 +65,19 @@ npx skills add hachiware-labs/hachi-concept-factory --skill hachi-prd
 | `hachi-prd` | Concept Briefを、ユーザー分析・ユースケース・要件・受け入れ基準・ADR候補つきのPRDにする | PRD |
 | `hachi-adr` | PRDのADR候補や設計判断を、1判断1ADRの粒度で詳細に記録する | ADR |
 
+## 作れる成果物
+
+各Skillは、レビュー、編集、`factory/` 以下への保存、次のSkillへの引き継ぎに使える成果物を作ります。
+
+| Skill | 作れる成果物 | 向いている場面 | 推奨保存先 |
+|---|---|---|---|
+| `hachi-sense` | SEEDレポート、シグナルマップ、根拠メモ、確度スコア、引き継ぎメモ | 何を作るか決める前に、未解決の困りごとを構造化したい | `factory/seeds/` |
+| `hachi-position` | Positioningレポート、ベンダー / OSSリスク分析、Moat / Wedgeスコア、promote / watch / merge / discard判断 | SEEDを製品化に進めるべきか判断したい | `factory/positioning/` |
+| `hachi-concept` | Concept Brief、洗練ログ、シグネチャーワークフロー、入力例 / 出力例、PRD準備度 | PRDに進められる具体的なConceptへ磨きたい | `factory/concepts/` |
+| `hachi-prd` | MVP / standard / full PRD、ユーザー分析、ペインポイント、操作イメージつきユースケース、要件、受け入れ基準、ADR候補 | エンジニアやAgentが実装できる仕様にしたい | `factory/prds/` |
+| `hachi-adr` | ADR、前提台帳、代替案、結果、rollback path、検証メモ、フォローアップタスク | 1つの設計判断を後から読める形で残したい | `factory/adrs/` |
+| 全体ワークフロー | Discovery packet、製品判断の履歴、Concept Brief、PRD、ADR群、実行ログ | 困りごと発見から仕様化・設計判断までを一貫して残したい | `factory/runs/` と各段階の保存先 |
+
 ## このリポジトリでできること
 
 - 注目領域からプロダクト化できそうな困りごとを拾う
@@ -228,15 +241,15 @@ hachi-prd を使って、このConcept Briefを standard density のPRDにして
 
 多くのAgentはインストール済みSkillのmetadataから自動で起動しますが、最初はSkill名を明示するのが確実です。
 
-各Skillに設定されている表示名は、ショートハンドとしても使えます。ショートハンドから始めて、対象テーマ、成果物、mode、density、出力言語を続けて指定できます。
+各Skillに設定されている表示名は、ショートハンドとしても使えます。ショートハンドから始めて、対象テーマ、成果物、mode、density、出力言語、保存先を続けて指定できます。
 
-| ショートハンド | 依頼例 |
-|---|---|
-| `hachi-sense` | `hachi-sense: 「agent memory governance」のSEEDを集めてください。` |
-| `hachi-position` | `hachi-position: このSEEDを評価し、promote / watch / merge / discard を判断してください。` |
-| `hachi-concept` | `hachi-concept: このPositioning ReportをPRD-readyなConcept Briefへ磨いてください。` |
-| `hachi-prd` | `hachi-prd: このConcept Briefからstandard densityのPRDを作ってください。` |
-| `hachi-adr` | `hachi-adr: このADR候補から、1判断1ADRの厳密なADRを書いてください。` |
+| ショートハンド | 向いている用途 | 依頼例 |
+|---|---|---|
+| `hachi-sense` | 困りごとの兆しを見つけ、スコアする | `hachi-sense: 「agent memory governance」のSEEDを集めてください。`<br>`hachi-sense: このメモをSEED候補に整理し、factory/seeds/ に保存する想定で出してください。` |
+| `hachi-position` | SEEDを次に進めるべきか判断する | `hachi-position: このSEEDを評価し、promote / watch / merge / discard を判断してください。`<br>`hachi-position: ベンダーリスク、OSSリスク、Moat、Wedge、hachiware-labs適合性を見てください。` |
+| `hachi-concept` | Conceptを抽出・洗練する | `hachi-concept: このPositioning ReportをPRD-readyなConcept Briefへ磨いてください。`<br>`hachi-concept extract: このリポジトリを読み、潜在的な製品Conceptを抽出してください。` |
+| `hachi-prd` | 実装可能な要件を書く | `hachi-prd: このConcept Briefからstandard densityのPRDを作ってください。`<br>`hachi-prd mvp: ユーザー、ペインポイント、操作イメージ、受け入れ基準、ADR候補を含めてください。` |
+| `hachi-adr` | 設計判断を記録する | `hachi-adr: このADR候補から、1判断1ADRの厳密なADRを書いてください。`<br>`hachi-adr: 混ざった判断を分割し、最初のADRにrollbackと検証メモを含めてください。` |
 
 複数Skillをまとめて使う場合も、ショートハンドを並べて依頼できます。
 
@@ -300,6 +313,30 @@ hachi-sense
 | PRD | `factory/prds/` |
 | ADR | `factory/adrs/` |
 | 実行ログ・試行結果 | `factory/runs/` |
+
+### ストーリー: 困りごとの発見からADRまで
+
+たとえば、小さなプロダクトチームで「AI Agent同士のhandoffで文脈が失われる」という違和感に気づいたとします。まだ製品案ではありません。「agent memory」「handoffが壊れる」「実行結果をレビューしづらい」といった不満が散らばっているだけです。
+
+最初に `hachi-sense` を使います。対象領域のSEEDを集め、観察された事実と推測を分け、繰り返される不満をクラスタリングし、確度をスコアし、`factory/seeds/` にSEEDレポートとして残します。この段階ではPRDを書きません。どの困りごとが調査に値するか、どれが弱いか、何の根拠が足りないかを明らかにします。
+
+次に、最も強いSEEDを `hachi-position` に渡します。大手ベンダーに吸収されるリスク、OSS代替、手作業の回避策、差別化、Moat、Wedge、Buildabilityを評価します。この段階では、promote / watch / merge / discard の判断を出します。Positioningレポートは `factory/positioning/` に保存します。
+
+進める価値があるなら、`hachi-concept` を使います。SEEDとPositioning Reportがある場合は refine mode、既存リポジトリを読む場合は extract mode が向いています。対象ユーザー、最初のワークフロー、入力例、出力例、価値を実感する瞬間、非目標、継続利用価値、PRD準備度を具体化し、Concept Briefを `factory/concepts/` に保存します。
+
+Conceptが固まったら、`hachi-prd` を使います。必要な粒度に応じて `mvp`、`standard`、`full` を指定します。PRDでは、ユーザー分析、ペインポイント、操作イメージつきユースケース、機能要件、非機能要件、受け入れ基準、成功指標、要件トレーサビリティ、ADR候補まで描き切ります。保存先は `factory/prds/` です。
+
+最後に、PRDから出てきた重要な設計判断ごとに `hachi-adr` を使います。1 ADR = 1 decision を守り、情報が足りない場合は保守的な仮定を置き、代替案、結果、rollback条件、検証メモを残します。ADRは `factory/adrs/` に保存します。ここまで進むと、最初の曖昧な困りごとは、根拠、製品判断、Concept、実装仕様、設計判断までつながったレビュー可能な成果物になります。
+
+全体を一気に依頼する場合の短い例:
+
+```text
+hachi-sense -> hachi-position -> hachi-concept -> hachi-prd -> hachi-adr.
+「小さなプロダクトチームでAI Agentのhandoffが壊れる」という問題領域から始めてください。
+SEEDを見つけ、最も強いSEEDを評価し、Concept Briefへ洗練し、
+MVP PRDを書き、最初のADR候補まで作ってください。
+成果物は factory/ 以下に保存する想定で、各段階のpromotion判断も説明してください。
+```
 
 全体を一気に進めたい場合の依頼例:
 
